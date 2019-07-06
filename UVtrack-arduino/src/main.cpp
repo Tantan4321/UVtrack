@@ -1,5 +1,7 @@
 #include <Arduino.h>
 
+#include "Adafruit_VEML6075.h"
+
 void setup() {
   // put your setup code here, to run once:
 }
