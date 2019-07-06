@@ -32,7 +32,7 @@ void setup() {
   Serial.println("ms"); 
 
   //Reading rate configs
-  uv_sensor.setHighDynamic(false);
+  uv_sensor.setHighDynamic(true);
   uv_sensor.setForcedMode(false);
 
   //calibration coeffs
