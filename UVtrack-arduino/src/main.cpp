@@ -4,6 +4,8 @@
 
 Adafruit_VEML6075 uv_sensor = Adafruit_VEML6075();
 
+const int read_delay = 1000; //sensor read delay time
+
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(115200);
@@ -38,5 +40,9 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  Serial.print("UVA reading: "); Serial.println(uv_sensor.readUVA());
+  Serial.print("UVB reading: "); Serial.println(uv_sensor.readUVB());
+  Serial.print("UV Index reading: "); Serial.println(uv_sensor.readUVI());
+
+  delay(read_delay);
 }
