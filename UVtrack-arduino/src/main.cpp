@@ -24,12 +24,16 @@ void setup() {
     case VEML6075_400MS: Serial.print("400"); break;
     case VEML6075_800MS: Serial.print("800"); break;
   }
-  Serial.println("ms");
+  Serial.println("ms"); 
 
+  //Reading rate configs
   uv_sensor.setHighDynamic(true);
+  uv_sensor.setForcedMode(false);
 
-  
-
+  //calibration coeffs
+  uv_sensor.setCoefficients(2.22, 1.33,  // UVA_A and UVA_B coefficients
+                            2.95, 1.74,  // UVB_C and UVB_D coefficients
+                            0.001461, 0.002591); // UVA and UVB responses
   
 }
 
