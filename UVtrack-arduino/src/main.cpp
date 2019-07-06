@@ -1,5 +1,6 @@
 #include <Arduino.h>
 
+#include <Wire.h>
 #include "Adafruit_VEML6075.h"
 
 Adafruit_VEML6075 uv_sensor = Adafruit_VEML6075();
@@ -7,7 +8,9 @@ Adafruit_VEML6075 uv_sensor = Adafruit_VEML6075();
 const int read_delay = 1000; //sensor read delay time
 
 void setup() {
-  // put your setup code here, to run once:
+  /**
+   * Start of UV sensor init code
+   */
   Serial.begin(115200);
   if(!uv_sensor.begin()){
     Serial.println("Failed to communicate with UV sensor!");
@@ -36,6 +39,8 @@ void setup() {
   uv_sensor.setCoefficients(2.22, 1.33,  // UVA_A and UVA_B coefficients
                             2.95, 1.74,  // UVB_C and UVB_D coefficients
                             0.001461, 0.002591); // UVA and UVB responses
+
+  //~~~~~~~~~~~~~~~~~~~~~~~~~~End UV sensor init~~~~~~~~~~~~~~~~~~~~~~
   
 }
 
