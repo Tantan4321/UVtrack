@@ -1,6 +1,9 @@
 #include <Arduino.h>
 
 #include <Wire.h>
+#include <avr/sleep.h>
+#include <avr/power.h>
+
 #include "Adafruit_VEML6075.h"
 
 Adafruit_VEML6075 uv_sensor = Adafruit_VEML6075();
@@ -20,7 +23,7 @@ void setup() {
 
   uv_sensor.setIntegrationTime(VEML6075_100MS);
   
-  //DEBUGGING vvv
+  /* DEBUGGING vvv
   Serial.print("Integration time set to ");
   switch (uv_sensor.getIntegrationTime()) {
     case VEML6075_50MS: Serial.print("50"); break;
@@ -30,6 +33,7 @@ void setup() {
     case VEML6075_800MS: Serial.print("800"); break;
   }
   Serial.println("ms"); 
+  */
 
   //Reading rate configs
   uv_sensor.setHighDynamic(true);
@@ -50,4 +54,33 @@ void loop() {
   Serial.print("UV Index reading: "); Serial.println(uv_sensor.readUVI());
 
   delay(read_delay);
+}
+
+/**
+ * Sleep mode
+ */
+void sleep() {
+    set_sleep_mode(SLEEP_MODE_IDLE);
+    
+    // Set Power Reduction register to disable timer 
+    PRR = PRR | 0b00100000;
+    
+    power_adc_disable();
+    power_spi_disable();
+    power_timer0_disable();
+    power_timer1_disable();
+    power_timer2_disable();
+    power_twi_disable();
+
+    // Enter sleep mode
+    sleep_enable();
+    sleep_mode();
+    
+    // Return from sleep
+    sleep_disable();
+    
+    // Re-enable timer
+    PRR = PRR & 0b00000000;
+    
+    power_all_enable();
 }
