@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UV Tracker</string>
+    <string name="ble_not_supported">Bluetooth not supported!</string>
 </resources>
