@@ -1,10 +1,7 @@
 package com.tantan4321.uvtracker;
 
-import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.view.Gravity;
 import android.widget.Toast;
 
