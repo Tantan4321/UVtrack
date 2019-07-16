@@ -19,6 +19,6 @@
     <string name="title_devices">BLE Device Scan</string>
     <string name="error_bluetooth_not_supported">Bluetooth not supported.</string>
     <string name="unknown_device">Unknown Device</string>
-    <string name="app_description">Bruh</string>
+    <string name="app_description">UV-Track Companion App</string>
 
 </resources>
