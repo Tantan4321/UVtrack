@@ -23,12 +23,6 @@ android {
     }
     flavorDimensions 'phones'
     productFlavors {
-        Kitkat {
-            dimension = 'phones'
-            minSdkVersion 19
-            targetSdkVersion 19
-            maxSdkVersion 24
-        }
         Vanilla {
             dimension = 'phones'
             minSdkVersion 24
