@@ -4,13 +4,16 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.ParcelUuid;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -22,7 +25,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.google.android.material.navigation.NavigationView;
 
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        DeviceFragment.DeviceFragmentListener{
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -31,6 +36,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG_FRAGMENT_PREFERENCES = "preferences";
 
     private BluetoothAdapter mBtAdapter;
+
+    private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
+    private int mTrackingState = BluetoothService.TRACKING_STATE_UNKNOWN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +110,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Fragment fragment = DeviceFragment.newInstance(
                         getDefaultDeviceAddress(),
                         getDefaultDeviceName(),
-                        new ParcelUuid(DoorlockService.BLUNO_SERVICE_UUID));
+                        new ParcelUuid(BluetoothService.BLUNO_SERVICE_UUID));
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DEVICE);
                 ft.commit();
@@ -122,5 +130,78 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onScanningStatusChange(boolean scanning) {
+        View progress = findViewById(R.id.toolbar_progress_bar);
+        View refresh = findViewById(R.id.refresh_button);
+        if (scanning) {
+            progress.setVisibility(View.VISIBLE);
+            refresh.setVisibility(View.GONE);
+        } else {
+            progress.setVisibility(View.GONE);
+            refresh.setVisibility(View.VISIBLE);
+        }
+    }
+
+    @Override
+    public void onShowScanningStatus (boolean show) {
+        View scanningStatus = findViewById(R.id.scanning_status);
+        if (show) {
+            scanningStatus.setVisibility(View.VISIBLE);
+        } else {
+            scanningStatus.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    @Override
+    public void onDeviceSelected(BluetoothDevice device) {
+        setDefaultDeviceAddress(device.getAddress());
+        setDefaultDeviceName(device.getName());
+    }
+
+    @Override
+    public void onUpdateView() {
+        /*DoorControlFragment doorControl = (DoorControlFragment)
+                getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DOOR_CONTROL);
+        if (doorControl != null) {
+            doorControl.updateState(mConnectionState, mDoorState);
+        }
+        KeypadFragment keypad = (KeypadFragment)
+                getFragmentManager().findFragmentByTag(TAG_FRAGMENT_KEYPAD);
+        if (keypad != null) {
+            keypad.updateState(mConnectionState, mDoorState);
+        }
+        */
+        DeviceFragment deviceUI = (DeviceFragment)
+                getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DEVICE);
+        if (deviceUI != null) {
+            deviceUI.updateState(mConnectionState, mTrackingState);
+        }
+    }
+
+    private String getDefaultDeviceAddress() {
+        SharedPreferences prefs = getSharedPreferences(
+                getPackageName(), Context.MODE_PRIVATE);
+        return prefs.getString(BluetoothService.PREF_DEFAULT_DEVICE_ADDRESS, null);
+    }
+
+    private String getDefaultDeviceName() {
+        SharedPreferences prefs = getSharedPreferences(
+                getPackageName(), Context.MODE_PRIVATE);
+        return prefs.getString(BluetoothService.PREF_DEFAULT_DEVICE_NAME, null);
+    }
+
+    private void setDefaultDeviceAddress(String address) {
+        SharedPreferences prefs = getSharedPreferences(
+                getPackageName(), Context.MODE_PRIVATE);
+        prefs.edit().putString(BluetoothService.PREF_DEFAULT_DEVICE_ADDRESS, address).apply();
+    }
+
+    private void setDefaultDeviceName(String name) {
+        SharedPreferences prefs = getSharedPreferences(
+                getPackageName(), Context.MODE_PRIVATE);
+        prefs.edit().putString(BluetoothService.PREF_DEFAULT_DEVICE_NAME, name).apply();
     }
 }

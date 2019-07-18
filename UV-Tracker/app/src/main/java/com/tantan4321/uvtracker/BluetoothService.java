@@ -60,7 +60,7 @@ public class BluetoothService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
-    private int mDoorState = DOOR_STATE_UNKNOWN;
+    private int mDoorState = TRACKING_STATE_UNKNOWN;
     private BluetoothGattService mGattBlunoService;
     private BluetoothGattService mGattDeviceInfoService;
     private SharedPreferences mSharedPreferences;
@@ -75,13 +75,14 @@ public class BluetoothService extends Service {
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
 
+    //TODO: fix
     public final static String ACTION_DOOR_STATE_CHANGED =
             "net.jpuderer.android.bluedoor.ACTION_DOOR_STATE_CHANGED";
     public final static String EXTRA_DOOR_STATE =
             "net.jpuderer.android.bluedoor.EXTRA_CONNECTION_STATE";
-    public static final int DOOR_STATE_UNKNOWN = 0;
-    public static final int DOOR_STATE_LOCKED = 1;
-    public static final int DOOR_STATE_UNLOCKED = 2;
+    public static final int TRACKING_STATE_UNKNOWN = 0;
+    public static final int TRACKING_STATE_LOCKED = 1;
+    public static final int TRACKING_STATE_UNLOCKED = 2;
 
     public final static String ACTION_LOCK =
             "net.jpuderer.android.bluedoor.ACTION_LOCK";
@@ -162,7 +163,7 @@ public class BluetoothService extends Service {
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 Log.d(TAG, "onConnectionStateChange: Disconnected");
                 mConnectionState = STATE_DISCONNECTED;
-                mDoorState = DOOR_STATE_UNKNOWN;
+                mDoorState = TRACKING_STATE_UNKNOWN;
                 mGattBlunoService = null;
                 mGattDeviceInfoService = null;
                 Log.i(TAG, "Disconnected from GATT server.");
@@ -448,12 +449,12 @@ public class BluetoothService extends Service {
             Log.d(TAG, String.format("byte: 0x%x", b));
             switch (data[i]) {
                 case LOCK_STATUS_BYTE:
-                    mDoorState = DOOR_STATE_LOCKED;
+                    mDoorState = TRACKING_STATE_LOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
                     break;
                 case UNLOCK_STATUS_BYTE:
-                    mDoorState = DOOR_STATE_UNLOCKED;
+                    mDoorState = TRACKING_STATE_UNLOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
                     break;
@@ -504,7 +505,7 @@ public class BluetoothService extends Service {
         NotificationManager notificationManager =
                 (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        if ((mConnectionState != STATE_CONNECTED) || (mDoorState == DOOR_STATE_UNKNOWN)) {
+        if ((mConnectionState != STATE_CONNECTED) || (mDoorState == TRACKING_STATE_UNKNOWN)) {
             notificationManager.cancelAll();
             return;
         }
@@ -512,7 +513,7 @@ public class BluetoothService extends Service {
         Intent intent = new Intent(this, BluetoothService.class);
 
         Notification notification;
-        if (mDoorState == DOOR_STATE_LOCKED) {
+        if (mDoorState == TRACKING_STATE_LOCKED) {
             intent.setAction(ACTION_UNLOCK);
             PendingIntent pIntent = PendingIntent.getService(this,
                     (int) System.currentTimeMillis(), intent, 0);
