@@ -36,8 +36,8 @@ public class PreferencesFragment extends PreferenceFragment
         mPasscodePreference = (EditTextPreference)
                 findPreference("passcode");
         mPasscodePreference.setOnPreferenceChangeListener(this);
-        final String passcode = mSharedPreferences.getString(DoorlockService.PREF_LOCK_PASSCODE,
-                DoorlockService.DEFAULT_LOCK_PASSCODE);
+        final String passcode = mSharedPreferences.getString(BluetoothService.PREF_LOCK_PASSCODE,
+                BluetoothService.DEFAULT_LOCK_PASSCODE);
         mPasscodePreference.setText(passcode);
         mPasscodePreference.setSummary(passwordString(passcode.length()));
     }
@@ -47,7 +47,7 @@ public class PreferencesFragment extends PreferenceFragment
         if (preference.equals(mPasscodePreference)) {
             final String passcode = (String) newValue;
             mSharedPreferences.edit().putString(
-                    DoorlockService.PREF_LOCK_PASSCODE, passcode).apply();
+                    BluetoothService.PREF_LOCK_PASSCODE, passcode).apply();
             mPasscodePreference.setSummary(passwordString(passcode.length()));
         }
         return true;
@@ -55,7 +55,7 @@ public class PreferencesFragment extends PreferenceFragment
 
     private String passwordString(int n) {
         StringBuilder stringBuilder =
-                new StringBuilder(DoorlockService.MAX_PASSCODE_LENGTH);
+                new StringBuilder(BluetoothService.MAX_PASSCODE_LENGTH);
         for (int i=0; i < n; i++) {
             stringBuilder.appendCodePoint(8226);
         }
