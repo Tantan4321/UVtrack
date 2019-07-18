@@ -1,18 +1,22 @@
 package com.tantan4321.uvtracker;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.ParcelUuid;
 import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
@@ -22,6 +26,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final String TAG = "MainActivity";
 
     private static final int REQUEST_ENABLE_BT = 1;
+
+    private static final String TAG_FRAGMENT_DEVICE = "device";
+    private static final String TAG_FRAGMENT_PREFERENCES = "preferences";
 
     private BluetoothAdapter mBtAdapter;
 
@@ -81,6 +88,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
+
+        switch (id) {
+            /*case R.id.nav_keypad:
+                setTitle(R.string.nav_label_keypad);
+                Fragment fragment = KeypadFragment.newInstance();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_KEYPAD);
+                ft.commit();
+                break;*/
+            case R.id.nav_device:
+                setTitle(R.string.nav_label_bt_device);
+                Fragment fragment = DeviceFragment.newInstance(
+                        getDefaultDeviceAddress(),
+                        getDefaultDeviceName(),
+                        new ParcelUuid(DoorlockService.BLUNO_SERVICE_UUID));
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DEVICE);
+                ft.commit();
+                break;
+            case R.id.nav_preferences:
+                setTitle(R.string.nav_label_preferences);
+                fragment = PreferencesFragment.newInstance();
+                ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_PREFERENCES);
+                ft.commit();
+                break;
+            default:
+                break;
+        }
+
+        item.setChecked(true);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
         return true;
     }
 }
