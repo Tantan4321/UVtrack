@@ -23,4 +23,24 @@
         android:paddingLeft="80dp"
         android:text="UV-Track" />
 
+    <Button
+        android:textStyle="bold"
+        android:layout_alignLeft="@id/content_main"
+        android:layout_alignParentBottom="true"
+        android:id="@+id/button"
+        android:layout_width="105dp"
+        android:layout_height="83dp"
+        android:foregroundGravity="left|bottom"
+        android:text="SPF:" />
+
+    <Button
+        android:id="@+id/Bt_data"
+        android:layout_width="105dp"
+        android:layout_height="83dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:foregroundGravity="left|bottom"
+        android:text="Data Analysis"
+        android:textStyle="bold" />
+
 </RelativeLayout>
