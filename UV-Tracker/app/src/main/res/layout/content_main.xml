@@ -15,12 +15,26 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="240dp"
-        android:layout_height="59dp"
+        android:layout_width="289dp"
+        android:layout_height="96dp"
+        android:layout_below="@+id/editText2"
+        android:layout_marginTop="-6dp"
+        android:gravity="center"
         android:layout_centerHorizontal="true"
+        android:inputType="textPersonName"
+        android:paddingBottom="15dp"
+        android:text="Take Care Tomorrow From:"
+        android:textSize="15sp" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:textSize="50sp"
+        android:layout_width="262dp"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
         android:ems="10"
         android:inputType="textPersonName"
-        android:paddingLeft="80dp"
         android:text="UV-Track" />
 
     <Button
@@ -39,8 +53,30 @@
         android:layout_height="83dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:foregroundGravity="left|bottom"
         android:text="Data Analysis"
         android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:ems="10"
+        android:inputType="time"
+        tools:text="10:00AM-4:00PM" />
+
+    <EditText
+        android:id="@+id/editText4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-52dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="Time Remaining:" />
 
 </RelativeLayout>
