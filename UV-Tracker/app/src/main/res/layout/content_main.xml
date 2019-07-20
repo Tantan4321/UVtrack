@@ -13,7 +13,7 @@
     tools:context=".MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <EditText
+    <TextView
         android:id="@+id/editText"
         android:layout_width="289dp"
         android:layout_height="96dp"
@@ -24,7 +24,7 @@
         android:inputType="textPersonName"
         android:paddingBottom="15dp"
         android:text="Take Care Tomorrow From:"
-        android:textSize="15sp" />
+        android:textSize="25sp" />
 
     <EditText
         android:id="@+id/editText2"
@@ -39,7 +39,6 @@
 
     <Button
         android:textStyle="bold"
-        android:layout_alignLeft="@id/content_main"
         android:layout_alignParentBottom="true"
         android:id="@+id/button"
         android:layout_width="105dp"
@@ -56,7 +55,7 @@
         android:text="Data Analysis"
         android:textStyle="bold" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText3"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@id/editText"
@@ -64,6 +63,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:ems="10"
+        android:textSize="25sp"
         android:inputType="time"
         tools:text="10:00AM-4:00PM" />
 
