@@ -67,16 +67,30 @@
         android:inputType="time"
         tools:text="10:00AM-4:00PM" />
 
-    <EditText
+    <TextView
         android:id="@+id/editText4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/editText3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-52dp"
+        android:layout_marginBottom="-72dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:text="Time Remaining:" />
+        android:text="Time Remaining:"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="273dp"
+        android:layout_height="224dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignBottom="@+id/editText4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:layout_marginBottom="-193dp"
+        android:gravity="center"
+        android:text="10:00"
+        android:textSize="100sp" />
 
 </RelativeLayout>
