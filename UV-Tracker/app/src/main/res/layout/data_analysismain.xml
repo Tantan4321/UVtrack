@@ -17,14 +17,7 @@
         android:layout_marginBottom="35dp"
         android:text="Learn More" />
 
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/logo" />
-
-    <ImageView
+    <Button
         android:id="@+id/imageView9"
         android:layout_width="76dp"
         android:layout_height="74dp"
@@ -33,7 +26,15 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="26dp"
         android:layout_toStartOf="@+id/imageView13"
+        android:background="@drawable/ic_clockicon"
         app:srcCompat="@drawable/rectangle14" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/logo" />
 
     <ImageView
         android:id="@+id/imageView13"
@@ -46,7 +47,7 @@
         android:layout_marginBottom="-2dp"
         app:srcCompat="@drawable/rectangle15" />
 
-    <ImageView
+    <Button
         android:id="@+id/imageView15"
         android:layout_width="76dp"
         android:layout_height="74dp"
@@ -54,6 +55,7 @@
         android:layout_marginStart="11dp"
         android:layout_marginTop="40dp"
         android:layout_toEndOf="@+id/imageView13"
+        android:background="@drawable/ic_shopicon"
         app:srcCompat="@drawable/rectangle14" />
 
     <ImageView
@@ -77,5 +79,26 @@
         android:layout_marginBottom="159dp"
         android:layout_centerHorizontal="true"
         app:srcCompat="@drawable/accumulated" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/imageView7"
+        android:layout_marginTop="-361dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/todaysdataresults" />
+
+    <ImageView
+        android:id="@+id/imageView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageView9"
+        android:layout_alignBottom="@+id/imageView9"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="6dp"
+        android:layout_marginBottom="79dp"
+        app:srcCompat="@drawable/uvclockchigga" />
 
 </RelativeLayout>
