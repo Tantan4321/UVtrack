@@ -317,7 +317,7 @@ public class DeviceFragment extends Fragment implements
         Log.d(TAG, "startBluetoothLeScan");
         if (enable && mBluetoothAdapter.isEnabled()) {
             mLeDeviceListAdapter.clear();
-
+            Log.e(TAG, "scanLeDevice: Bruh 22");
             if (!TextUtils.isEmpty(mDefaultDeviceAddress)) {
                 // Add the default device as the first item in the list
                 final ScanResultWrapper resultWrapper = new ScanResultWrapper(

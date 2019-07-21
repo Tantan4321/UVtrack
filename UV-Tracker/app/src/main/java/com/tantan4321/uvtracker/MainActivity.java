@@ -32,6 +32,7 @@ public class MainActivity extends AppCompatActivity
 
     private static final int REQUEST_ENABLE_BT = 1;
 
+    private static final String TAG_FRAGMENT_READER = "reader";
     private static final String TAG_FRAGMENT_DEVICE = "device";
     private static final String TAG_FRAGMENT_PREFERENCES = "preferences";
 
@@ -97,14 +98,13 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
         FragmentManager fragmentManager = getFragmentManager();
 
-        /*case R.id.nav_keypad:
-            setTitle(R.string.nav_label_keypad);
-            Fragment fragment = KeypadFragment.newInstance();
+        if (id == R.id.nav_reader) {
+            setTitle(R.string.nav_label_door_control);
+            Fragment fragment = ReaderFragment.newInstance();
             FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_KEYPAD);
+            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_READER);
             ft.commit();
-            break;*/
-        if(id == R.id.nav_device) {
+        }else if(id == R.id.nav_device) {
             setTitle(R.string.nav_label_bt_device);
             Fragment fragment = DeviceFragment.newInstance(
                     getDefaultDeviceAddress(),
@@ -158,7 +158,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onUpdateView() {
-        /*DoorControlFragment doorControl = (DoorControlFragment)
+        /*ReaderFragment doorControl = (ReaderFragment)
                 getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DOOR_CONTROL);
         if (doorControl != null) {
             doorControl.updateState(mConnectionState, mDoorState);
