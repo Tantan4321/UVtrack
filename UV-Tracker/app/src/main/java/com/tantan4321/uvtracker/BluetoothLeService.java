@@ -34,6 +34,7 @@ import android.util.Log;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;
+import java.util.UUID;
 
 
 /**
@@ -86,6 +87,15 @@ public class BluetoothLeService extends Service {
             "com.example.bluetooth.le.EXTRA_DATA";
 //    public final static UUID UUID_HEART_RATE_MEASUREMENT =
 //            UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
+
+    public final static UUID BLUNO_SERVICE_UUID =
+            UUID.fromString("0000dfb0-0000-1000-8000-00805f9b34fb");
+
+
+    public static final String PREF_DEFAULT_DEVICE_ADDRESS =
+            "PREF_DEFAULT_DEVICE_ADDRESS";
+    public static final String PREF_DEFAULT_DEVICE_NAME =
+            "PREF_DEFAULT_DEVICE_NAME";
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.

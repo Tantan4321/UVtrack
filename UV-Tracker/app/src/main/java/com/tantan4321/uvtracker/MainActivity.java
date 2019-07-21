@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity
 
     private BluetoothAdapter mBtAdapter;
 
-    private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
+    private int mConnectionState = BluetoothLeService.STATE_DISCONNECTED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_reader) {
-            setTitle(R.string.nav_label_door_control);
+            setTitle(R.string.nav_label_uv_reader);
             Fragment fragment = ReaderFragment.newInstance();
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_READER);
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity
             Fragment fragment = DeviceFragment.newInstance(
                     getDefaultDeviceAddress(),
                     getDefaultDeviceName(),
-                    new ParcelUuid(BluetoothService.BLUNO_SERVICE_UUID));
+                    new ParcelUuid(BluetoothLeService.BLUNO_SERVICE_UUID));
             FragmentTransaction ft = fragmentManager.beginTransaction();
             ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DEVICE);
             ft.commit();
@@ -178,24 +178,24 @@ public class MainActivity extends AppCompatActivity
     private String getDefaultDeviceAddress() {
         SharedPreferences prefs = getSharedPreferences(
                 getPackageName(), Context.MODE_PRIVATE);
-        return prefs.getString(BluetoothService.PREF_DEFAULT_DEVICE_ADDRESS, null);
+        return prefs.getString(BluetoothLeService.PREF_DEFAULT_DEVICE_ADDRESS, null);
     }
 
     private String getDefaultDeviceName() {
         SharedPreferences prefs = getSharedPreferences(
                 getPackageName(), Context.MODE_PRIVATE);
-        return prefs.getString(BluetoothService.PREF_DEFAULT_DEVICE_NAME, null);
+        return prefs.getString(BluetoothLeService.PREF_DEFAULT_DEVICE_NAME, null);
     }
 
     private void setDefaultDeviceAddress(String address) {
         SharedPreferences prefs = getSharedPreferences(
                 getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putString(BluetoothService.PREF_DEFAULT_DEVICE_ADDRESS, address).apply();
+        prefs.edit().putString(BluetoothLeService.PREF_DEFAULT_DEVICE_ADDRESS, address).apply();
     }
 
     private void setDefaultDeviceName(String name) {
         SharedPreferences prefs = getSharedPreferences(
                 getPackageName(), Context.MODE_PRIVATE);
-        prefs.edit().putString(BluetoothService.PREF_DEFAULT_DEVICE_NAME, name).apply();
+        prefs.edit().putString(BluetoothLeService.PREF_DEFAULT_DEVICE_NAME, name).apply();
     }
 }

@@ -3,7 +3,7 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_label_door_control">Door Control</string>
+    <string name="nav_label_uv_reader">UV Tracker</string>
     <string name="nav_label_reader">Reader</string>
     <string name="nav_label_bt_device">Bluetooth Device</string>
     <string name="nav_label_preferences">Preferences</string>
