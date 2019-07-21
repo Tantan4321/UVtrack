@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.ParcelUuid;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FRAGMENT_READER = "reader";
     private static final String TAG_FRAGMENT_DEVICE = "device";
     private static final String TAG_FRAGMENT_PREFERENCES = "preferences";
-    public static final String TAG_FRAGMENT_DATA = "data";
+    private static final String TAG_FRAGMENT_DATA = "data";
 
     private BluetoothAdapter mBtAdapter;
 
@@ -96,30 +97,8 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getFragmentManager();
 
-        if (id == R.id.nav_reader) {
-            setTitle(R.string.nav_label_uv_reader);
-            Fragment fragment = ReaderFragment.newInstance();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_READER);
-            ft.commit();
-        }else if(id == R.id.nav_device) {
-            setTitle(R.string.nav_label_bt_device);
-            Fragment fragment = DeviceFragment.newInstance(
-                    getDefaultDeviceAddress(),
-                    getDefaultDeviceName(),
-                    new ParcelUuid(BluetoothLeService.BLUNO_SERVICE_UUID));
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DEVICE);
-            ft.commit();
-        }else if(id == R.id.nav_preferences) {
-            setTitle(R.string.nav_label_preferences);
-            Fragment fragment = PreferencesFragment.newInstance();
-            FragmentTransaction ft = fragmentManager.beginTransaction();
-            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_PREFERENCES);
-            ft.commit();
-        }
+        changeFragment(id);
 
         item.setChecked(true);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -198,5 +177,39 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = getSharedPreferences(
                 getPackageName(), Context.MODE_PRIVATE);
         prefs.edit().putString(BluetoothLeService.PREF_DEFAULT_DEVICE_NAME, name).apply();
+    }
+
+    public void changeFragment(int id){
+        FragmentManager fragmentManager = getFragmentManager();
+
+        if (id == R.id.nav_reader) {
+            setTitle(R.string.nav_label_uv_reader);
+            Fragment fragment = ReaderFragment.newInstance();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_READER);
+            ft.commit();
+        }else if(id == R.id.nav_device) {
+            setTitle(R.string.nav_label_bt_device);
+            Fragment fragment = DeviceFragment.newInstance(
+                    getDefaultDeviceAddress(),
+                    getDefaultDeviceName(),
+                    new ParcelUuid(BluetoothLeService.BLUNO_SERVICE_UUID));
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DEVICE);
+            ft.commit();
+        }else if(id == R.id.nav_preferences) {
+            setTitle(R.string.nav_label_preferences);
+            Fragment fragment = PreferencesFragment.newInstance();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_PREFERENCES);
+            ft.commit();
+        }
+        else if(id == R.id.btn_data){
+            setTitle(R.string.nav_label_uv_reader);
+            Fragment fragment = DataFragment.newInstance();
+            FragmentTransaction ft = fragmentManager.beginTransaction();
+            ft.replace(R.id.content_main, fragment, TAG_FRAGMENT_DATA);
+            ft.commit();
+        }
     }
 }

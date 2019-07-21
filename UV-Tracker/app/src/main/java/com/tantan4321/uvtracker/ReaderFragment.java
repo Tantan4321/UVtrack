@@ -2,15 +2,11 @@ package com.tantan4321.uvtracker;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.widget.Button;
 
 public class ReaderFragment extends Fragment implements View.OnClickListener {
@@ -56,11 +52,7 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.btn_data:
-                getActivity().setTitle(R.string.nav_label_uv_reader);
-                Fragment fragment = DataFragment.newInstance();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ft.replace(R.id.content_main, fragment, MainActivity.TAG_FRAGMENT_DATA);
-                ft.commit();
+                ((MainActivity)getActivity()).changeFragment(R.id.btn_data);
                 break;
             default:
                 break;

@@ -3,9 +3,11 @@ package com.tantan4321.uvtracker;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class DataFragment extends Fragment implements View.OnClickListener{
+    private static final String TAG = "DataFragment";
 
     public DataFragment() {
         // Required empty public constructor
@@ -32,6 +35,7 @@ public class DataFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.e(TAG, "onCreateView: Why the fuck");
         View rootView = inflater.inflate(R.layout.data_fragment, container, false);
         return rootView;
     }
