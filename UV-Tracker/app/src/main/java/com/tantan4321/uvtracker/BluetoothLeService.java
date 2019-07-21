@@ -91,11 +91,15 @@ public class BluetoothLeService extends Service {
     public final static UUID BLUNO_SERVICE_UUID =
             UUID.fromString("0000dfb0-0000-1000-8000-00805f9b34fb");
 
-
+    //TODO: move to foreground service
     public static final String PREF_DEFAULT_DEVICE_ADDRESS =
             "PREF_DEFAULT_DEVICE_ADDRESS";
     public static final String PREF_DEFAULT_DEVICE_NAME =
             "PREF_DEFAULT_DEVICE_NAME";
+    public static final String PREF_PASSCODE =
+            "PREF_PASSCODE";
+
+    public static final String DEFAULT_LOCK_PASSCODE = "0000";
 
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.

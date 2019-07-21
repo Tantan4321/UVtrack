@@ -10,14 +10,6 @@ import android.view.ViewGroup;
 public class ReaderFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ReaderFragment";
 
-    private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
-    private int mDoorState = BluetoothService.TRACKING_STATE_UNKNOWN;
-
-
-
-    private static final String ARG_CONNECTION_STATE = "ARG_DEFAULT_DEVICE_ADDRESS";
-    private static final String ARG_DOOR_STATE = "ARG_DEFAULT_DEVICE_ADDRESS";
-
     // Fragments need an empty default contructor
     public ReaderFragment() { }
 
@@ -35,7 +27,6 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.reader_fragment, container, false);
-
 
         return rootView;
     }
