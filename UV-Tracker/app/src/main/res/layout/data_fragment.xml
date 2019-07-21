@@ -100,18 +100,18 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView2"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="468dp"
+        android:layout_marginTop="424dp"
         app:srcCompat="@drawable/accumulated" />
 
     <Button
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView3"
         android:layout_alignEnd="@+id/imageView3"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="79dp"
         android:layout_marginEnd="-18dp"
-        android:layout_marginBottom="80dp"
         android:text="Learn More" />
 
 </RelativeLayout>
