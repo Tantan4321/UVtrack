@@ -233,17 +233,14 @@ public class BluetoothService extends Service {
     };
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
-                final String address = getDefaultDeviceAddress();
-                if (!TextUtils.isEmpty(address)) {
-                    connect(address);
+            (sharedPreferences, key) -> {
+                if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
+                    final String address = getDefaultDeviceAddress();
+                    if (!TextUtils.isEmpty(address)) {
+                        connect(address);
+                    }
                 }
-            }
-        }
-    };
+            };
 
     public void broadcastConnectionUpdate() {
         final Intent intent = new Intent(ACTION_CONNECTION_STATE_CHANGED);

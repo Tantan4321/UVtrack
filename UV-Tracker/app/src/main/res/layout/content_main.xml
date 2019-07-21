@@ -14,11 +14,11 @@
     tools:showIn="@layout/app_bar_main">
 
     <TextView
-        android:layout_centerHorizontal="true"
         android:id="@+id/editText"
         android:layout_width="289dp"
         android:layout_height="96dp"
-        android:layout_below="@id/imageView2"
+        android:layout_below="@id/logo_image"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="-6dp"
         android:gravity="center"
         android:inputType="textPersonName"
@@ -83,11 +83,10 @@
         android:textSize="100sp" />
 
     <ImageView
-        android:background="@color/Transparent"
-        android:id="@+id/imageView2"
+        android:id="@+id/logo_image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/UVTrackLogo" />
+        app:srcCompat="@drawable/logo" />
 
 </RelativeLayout>

@@ -326,6 +326,7 @@ public class DeviceFragment extends Fragment implements
                         0,
                         0,
                         0);
+                Log.e(TAG, "scanLeDevice: bruh");
                 mLeDeviceListAdapter.addDevice(resultWrapper);
                 mLeDeviceListAdapter.notifyDataSetChanged();
             }
