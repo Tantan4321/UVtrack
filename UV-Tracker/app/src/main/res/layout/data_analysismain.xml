@@ -19,9 +19,12 @@
         android:id="@+id/button3"
         android:layout_width="113dp"
         android:layout_height="69dp"
+        android:layout_below="@+id/imageView13"
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom|left"
+        android:layout_marginTop="456dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="35dp"
         android:text="Learn More" />
 
     <ImageView
@@ -73,5 +76,24 @@
         android:layout_marginTop="41dp"
         android:layout_marginEnd="-98dp"
         app:srcCompat="@drawable/Rectangle13" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/imageView15"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="8dp"
+        android:layout_toStartOf="@+id/imageView15"
+        app:srcCompat="@drawable/Line15" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/imageView13"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/Takecaretodayfrom" />
 
 </RelativeLayout>
