@@ -3,9 +3,14 @@ package com.tantan4321.uvtracker;
 import android.app.Activity;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 
 public class ReaderFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ReaderFragment";
@@ -44,7 +49,20 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
+        FragmentManager fragmentManager = getFragmentManager();
 
+        switch (v.getId()) {
+            case R.id.btn_data:
+                Log.e(TAG, "onClick: BRUh");
+                getActivity().setTitle(R.string.nav_label_uv_reader);
+                Fragment fragment = ReaderFragment.newInstance();
+                FragmentTransaction ft = fragmentManager.beginTransaction();
+                ft.replace(R.id.content_main, fragment, MainActivity.TAG_FRAGMENT_DATA);
+                ft.commit();
+                break;
+            default:
+                break;
+        }
     }
 
 

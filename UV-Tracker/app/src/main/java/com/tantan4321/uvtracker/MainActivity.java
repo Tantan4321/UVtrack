@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FRAGMENT_READER = "reader";
     private static final String TAG_FRAGMENT_DEVICE = "device";
     private static final String TAG_FRAGMENT_PREFERENCES = "preferences";
+    public static final String TAG_FRAGMENT_DATA = "data";
 
     private BluetoothAdapter mBtAdapter;
 
