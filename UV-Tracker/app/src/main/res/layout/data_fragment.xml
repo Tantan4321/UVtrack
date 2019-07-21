@@ -74,25 +74,12 @@
         app:srcCompat="@drawable/takecaretodayfrom" />
 
     <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView13"
-        android:layout_alignEnd="@+id/button3"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="383dp"
-        android:layout_marginEnd="19dp"
-        android:layout_marginBottom="159dp"
-        android:layout_centerHorizontal="true"
-        app:srcCompat="@drawable/accumulated" />
-
-    <ImageView
         android:id="@+id/imageView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/imageView7"
-        android:layout_marginTop="-361dp"
+        android:layout_alignTop="@id/imageView15"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="95dp"
         app:srcCompat="@drawable/todaysdataresults" />
 
     <ImageView
@@ -118,5 +105,14 @@
         android:layout_marginTop="-20dp"
         android:layout_marginEnd="-2dp"
         app:srcCompat="@drawable/shopproducts" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="468dp"
+        app:srcCompat="@drawable/accumulated" />
 
 </RelativeLayout>
