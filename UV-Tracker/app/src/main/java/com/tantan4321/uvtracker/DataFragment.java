@@ -23,7 +23,7 @@ public class DataFragment extends Fragment implements View.OnClickListener{
     }
 
     public static Fragment newInstance() {
-        android.app.Fragment fragment = new ReaderFragment();
+        Fragment fragment = new DataFragment();
         return fragment;
     }
 
