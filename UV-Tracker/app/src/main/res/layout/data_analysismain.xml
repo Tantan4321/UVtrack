@@ -101,4 +101,16 @@
         android:layout_marginBottom="79dp"
         app:srcCompat="@drawable/uvclockchigga" />
 
+    <ImageView
+        android:id="@+id/imageView17"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/imageView9"
+        android:layout_alignTop="@+id/imageView15"
+        android:layout_alignEnd="@+id/imageView15"
+        android:layout_marginStart="280dp"
+        android:layout_marginTop="-20dp"
+        android:layout_marginEnd="-2dp"
+        app:srcCompat="@drawable/shopproducts" />
+
 </RelativeLayout>
