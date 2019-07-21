@@ -55,7 +55,7 @@ public class DeviceFragment extends Fragment implements
     private BluetoothAdapter mBluetoothAdapter;
     private BluetoothLeScanner mBluetoothLeScanner;
 
-    private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
+    private int mConnectionState = BluetoothLeService.STATE_DISCONNECTED;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
@@ -408,10 +408,10 @@ public class DeviceFragment extends Fragment implements
             // Is the current default device
             } else {
                 mSelectButton.hide();
-                if (mConnectionState == BluetoothService.STATE_CONNECTED) {
+                if (mConnectionState == BluetoothLeService.STATE_CONNECTED) {
                     status = "Connected";
                     lastSeenTimestamp = System.currentTimeMillis();
-                } else if (mConnectionState == BluetoothService.STATE_CONNECTING) {
+                } else if (mConnectionState == BluetoothLeService.STATE_CONNECTING) {
                     status = "Connecting";
                     lastSeenTimestamp = System.currentTimeMillis();
                 } else {
