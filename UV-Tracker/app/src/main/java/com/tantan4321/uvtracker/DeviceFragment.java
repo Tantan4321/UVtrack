@@ -56,7 +56,6 @@ public class DeviceFragment extends Fragment implements
     private BluetoothLeScanner mBluetoothLeScanner;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
-    private int mTrackingState = BluetoothService.TRACKING_STATE_UNKNOWN;
 
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
@@ -379,9 +378,8 @@ public class DeviceFragment extends Fragment implements
         }
     }
 
-    public void updateState(int connectionState, int doorState) {
+    public void updateState(int connectionState) {
         mConnectionState = connectionState;
-        mTrackingState = doorState;
         updateDeviceDetails();
     }
 

@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity
     private BluetoothAdapter mBtAdapter;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
-    private int mTrackingState = BluetoothService.TRACKING_STATE_UNKNOWN;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,7 +171,7 @@ public class MainActivity extends AppCompatActivity
         DeviceFragment deviceUI = (DeviceFragment)
                 getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DEVICE);
         if (deviceUI != null) {
-            deviceUI.updateState(mConnectionState, mTrackingState);
+            deviceUI.updateState(mConnectionState);
         }
     }
 
