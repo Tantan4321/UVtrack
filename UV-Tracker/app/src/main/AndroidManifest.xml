@@ -23,10 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <service
-            android:name=".BackgroundConnectionService"
-            android:exported="true"></service>
 
+        <service
+            android:name=".BluetoothService"
+            android:enabled="true" />
 
     </application>
 
