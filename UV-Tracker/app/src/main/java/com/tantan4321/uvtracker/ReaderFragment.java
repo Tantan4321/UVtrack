@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.widget.Button;
 
 public class ReaderFragment extends Fragment implements View.OnClickListener {
     private static final String TAG = "ReaderFragment";
@@ -33,6 +34,8 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.reader_fragment, container, false);
 
+        Button data = rootView.findViewById(R.id.btn_data);
+        data.setOnClickListener(this);
         return rootView;
     }
 
@@ -53,9 +56,8 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
 
         switch (v.getId()) {
             case R.id.btn_data:
-                Log.e(TAG, "onClick: BRUh");
                 getActivity().setTitle(R.string.nav_label_uv_reader);
-                Fragment fragment = ReaderFragment.newInstance();
+                Fragment fragment = DataFragment.newInstance();
                 FragmentTransaction ft = fragmentManager.beginTransaction();
                 ft.replace(R.id.content_main, fragment, MainActivity.TAG_FRAGMENT_DATA);
                 ft.commit();
