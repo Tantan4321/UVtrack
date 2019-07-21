@@ -28,14 +28,15 @@
 
     <EditText
         android:id="@+id/editText2"
-        android:textSize="50sp"
         android:layout_width="262dp"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
         android:ems="10"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
         android:inputType="textPersonName"
-        android:text="UV-Track" />
+        android:layoutparentTop="true"
+        android:text="UV-Track"
+        android:textSize="50sp" />
 
     <Button
         android:textStyle="bold"
