@@ -12,18 +12,6 @@
     tools:context=".MainActivity">
 
     <Button
-        android:id="@+id/button3"
-        android:layout_width="113dp"
-        android:layout_height="69dp"
-        android:layout_below="@+id/imageView13"
-        android:layout_alignParentBottom="true"
-        android:layout_gravity="bottom|left"
-        android:layout_marginTop="456dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="35dp"
-        android:text="Learn More" />
-
-    <Button
         android:id="@+id/imageView9"
         android:layout_width="76dp"
         android:layout_height="74dp"
@@ -114,5 +102,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="468dp"
         app:srcCompat="@drawable/accumulated" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/imageView3"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="-18dp"
+        android:layout_marginBottom="80dp"
+        android:text="Learn More" />
 
 </RelativeLayout>
