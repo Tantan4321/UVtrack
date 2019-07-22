@@ -27,13 +27,15 @@
         android:text="Take Care Tomorrow From:"
         android:textSize="20sp" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_spf"
         android:layout_width="105dp"
         android:layout_height="83dp"
         android:layout_alignParentBottom="true"
         android:foregroundGravity="left|bottom"
-        android:text="SPF:"
+        android:gravity="center"
+        android:text="SPF: 20"
+        android:textSize="25dp"
         android:textStyle="bold" />
 
     <Button
@@ -80,8 +82,8 @@
         android:layout_marginTop="21dp"
         android:layout_marginBottom="-193dp"
         android:gravity="center"
-        android:text="10:00"
-        android:textSize="100sp" />
+        android:text="4 Hours 10:00 Mins"
+        android:textSize="50sp" />
 
     <ImageView
         android:id="@+id/logo_image"
