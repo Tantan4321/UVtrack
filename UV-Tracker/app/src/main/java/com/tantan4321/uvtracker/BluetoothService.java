@@ -97,10 +97,10 @@ public class BluetoothService extends Service {
             "PREF_DEFAULT_DEVICE_ADDRESS";
     public static final String PREF_DEFAULT_DEVICE_NAME =
             "PREF_DEFAULT_DEVICE_NAME";
-    public static final String PREF_PASSCODE =
+    public static final String PREF_LOCK_PASSCODE =
             "PREF_PASSCODE";
 
-    public static final String DEFAULT_PASSCODE = "0000";
+    public static final String DEFAULT_LOCK_PASSCODE = "0000";
 
     // Maximum length we allow for the passcode
     public static final int MAX_PASSCODE_LENGTH = 16;
@@ -459,8 +459,8 @@ public class BluetoothService extends Service {
     }
 
     public void unlockDoor() {
-        String passcode = mSharedPreferences.getString(PREF_PASSCODE,
-                DEFAULT_PASSCODE) + '#';
+        String passcode = mSharedPreferences.getString(PREF_LOCK_PASSCODE,
+                DEFAULT_LOCK_PASSCODE) + '#';
         if (passcode.length() <= 1)
             return;
 
@@ -493,7 +493,7 @@ public class BluetoothService extends Service {
             return;
         }
 
-        Intent intent = new Intent(this, DoorlockService.class);
+        Intent intent = new Intent(this, BluetoothService.class);
 
         Notification notification;
         if (mDoorState == DOOR_STATE_LOCKED) {

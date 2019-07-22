@@ -76,6 +76,12 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        View refreshButton = findViewById(R.id.refresh_button);
+        refreshButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) { onRefreshClicked(v); }
+        });
+
         NavigationView mNavView = findViewById(R.id.nav_view);
         mNavView.setNavigationItemSelectedListener(this);
 
@@ -152,6 +158,14 @@ public class MainActivity extends AppCompatActivity
                 getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DEVICE);
         if (deviceUI != null) {
             deviceUI.updateState(mConnectionState);
+        }
+    }
+
+    public void onRefreshClicked(View view) {
+        DeviceFragment deviceFragment = (DeviceFragment)
+                getFragmentManager().findFragmentByTag(TAG_FRAGMENT_DEVICE);
+        if (deviceFragment != null) {
+            deviceFragment.scanLeDevice(true);
         }
     }
 

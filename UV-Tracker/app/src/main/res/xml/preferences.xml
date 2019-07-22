@@ -4,7 +4,7 @@
         android:key="passcode"
         android:title="Passcode"
         android:dialogTitle="Set Passcode"
-        android:dialogMessage="Enter the passcode for the doorlock"
+        android:dialogMessage="Enter the passcode"
         android:inputType="numberPassword"
         android:singleLine="true"/>
 </PreferenceScreen>
