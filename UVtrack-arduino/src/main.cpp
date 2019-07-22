@@ -49,9 +49,9 @@ void setup() {
 }
 
 void loop() {
-  Serial.print("UVA reading: "); Serial.println(uv_sensor.readUVA());
-  Serial.print("UVB reading: "); Serial.println(uv_sensor.readUVB());
-  Serial.print("UV Index reading: "); Serial.println(uv_sensor.readUVI());
+  Serial.print("UVA: "); Serial.println(uv_sensor.readUVA());
+  Serial.print("UVB: "); Serial.println(uv_sensor.readUVB());
+  Serial.print("UV Index: "); Serial.println(uv_sensor.readUVI());
 
   delay(read_delay);
 }
