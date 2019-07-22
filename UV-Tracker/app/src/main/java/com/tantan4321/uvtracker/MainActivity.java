@@ -6,13 +6,16 @@ import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.ParcelUuid;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -39,8 +42,39 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FRAGMENT_DATA = "data";
 
     private BluetoothAdapter mBtAdapter;
+    private BluetoothService mBluetoothService;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
+
+    //TODO: Transfer below to foreground service
+    // Code to manage Service lifecycle.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothService = ((BluetoothService.LocalBinder) service).getService();
+            mBluetoothService.broadcastConnectionUpdate();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothService = null;
+        }
+    };
+
+    // Handles various events fired by the Service.
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothService.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
+                mConnectionState =
+                        intent.getIntExtra(BluetoothService.EXTRA_CONNECTION_STATE, 0);
+
+                onUpdateView();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,16 +111,20 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         View refreshButton = findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { onRefreshClicked(v); }
-        });
+        refreshButton.setOnClickListener(v -> onRefreshClicked(v));
 
         NavigationView mNavView = findViewById(R.id.nav_view);
         mNavView.setNavigationItemSelectedListener(this);
 
         //registerServiceReceiver();
 
+        Intent gattServiceIntent = new Intent(this, BluetoothService.class);
+        startService(gattServiceIntent);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
+        if (savedInstanceState == null) {
+            onNavigationItemSelected(mNavView.getMenu().getItem(0));
+        }
 
     }
 
