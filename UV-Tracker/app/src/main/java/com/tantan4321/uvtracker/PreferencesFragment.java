@@ -36,8 +36,8 @@ public class PreferencesFragment extends PreferenceFragment
         mPasscodePreference = (EditTextPreference)
                 findPreference("passcode");
         mPasscodePreference.setOnPreferenceChangeListener(this);
-        final String passcode = mSharedPreferences.getString(BluetoothLeService.PREF_PASSCODE,
-                BluetoothLeService.DEFAULT_LOCK_PASSCODE);
+        final String passcode = mSharedPreferences.getString(BluetoothService.PREF_PASSCODE,
+                BluetoothService.DEFAULT_PASSCODE);
         mPasscodePreference.setText(passcode);
         mPasscodePreference.setSummary(passwordString(passcode.length()));
     }
@@ -47,7 +47,7 @@ public class PreferencesFragment extends PreferenceFragment
         if (preference.equals(mPasscodePreference)) {
             final String passcode = (String) newValue;
             mSharedPreferences.edit().putString(
-                    BluetoothLeService.PREF_PASSCODE, passcode).apply();
+                    BluetoothService.PREF_PASSCODE, passcode).apply();
             mPasscodePreference.setSummary(passwordString(passcode.length()));
         }
         return true;
