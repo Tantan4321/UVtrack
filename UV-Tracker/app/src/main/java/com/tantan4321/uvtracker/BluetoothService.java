@@ -220,17 +220,14 @@ public class BluetoothService extends Service {
     };
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
-                final String address = getDefaultDeviceAddress();
-                if (!TextUtils.isEmpty(address)) {
-                    connect(address);
+            (sharedPreferences, key) -> {
+                if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
+                    final String address = getDefaultDeviceAddress();
+                    if (!TextUtils.isEmpty(address)) {
+                        connect(address);
+                    }
                 }
-            }
-        }
-    };
+            };
 
     public void broadcastConnectionUpdate() {
         final Intent intent = new Intent(ACTION_CONNECTION_STATE_CHANGED);
@@ -248,7 +245,7 @@ public class BluetoothService extends Service {
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
-        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS);
         mSharedPreferences.registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
     }
 
@@ -281,14 +278,7 @@ public class BluetoothService extends Service {
             return START_NOT_STICKY;
         }
 
-        // The notification fires an intent to lock/unlock the door
-        if (intent != null && mConnectionState == STATE_CONNECTED) {
-            if (ACTION_UNLOCK.equals(intent.getAction())) {
-                unlockDoor();
-            } else if (ACTION_LOCK.equals(intent.getAction())) {
-                lockDoor();
-            }
-        }
+
 
         startBluetoothLeScan();
         return START_STICKY;
@@ -452,26 +442,6 @@ public class BluetoothService extends Service {
                     break;
             }
         }
-    }
-
-    public void lockDoor() {
-        sendSerial(KEYPAD_COMMAND_LOCK);
-    }
-
-    public void unlockDoor() {
-        String passcode = mSharedPreferences.getString(PREF_LOCK_PASSCODE,
-                DEFAULT_LOCK_PASSCODE) + '#';
-        if (passcode.length() <= 1)
-            return;
-
-        byte[] command;
-        try {
-            command = passcode.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unexpected error encoding passcode", e);
-            return;
-        }
-        sendSerial(command);
     }
 
     private String getDefaultDeviceAddress() {

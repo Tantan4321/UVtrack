@@ -25,6 +25,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -197,6 +198,15 @@ public class MainActivity extends AppCompatActivity
         if (deviceUI != null) {
             deviceUI.updateState(mConnectionState);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //TODO: test without killing service
+        unbindService(mServiceConnection);
+        mBluetoothService = null;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mGattUpdateReceiver);
     }
 
     public void onRefreshClicked(View view) {
