@@ -72,12 +72,6 @@ public class BluetoothService extends Service {
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
 
-
-    public final static String ACTION_LOCK =
-            "net.jpuderer.android.bluedoor.ACTION_LOCK";
-    public final static String ACTION_UNLOCK =
-            "net.jpuderer.android.bluedoor.ACTION_UNLOCK";
-
     public final static UUID HID_SERVICE_UUID =
             UUID.fromString("00001812-0000-1000-8000-00805f9b34fb");
     public final static UUID BLUNO_SERVICE_UUID =
@@ -108,23 +102,6 @@ public class BluetoothService extends Service {
     // Bluno serial characteristic can not receive more than 17 characters
     // at once.
     private static final int MAX_SERIAL_TX_SIZE = 17;
-
-    // Keys and commands to send to door
-
-    public static final byte GET_STATUS_COMMAND = 0x00;
-    public static final byte KEYPAD_COMMAND_LOCK = 0x41;
-    public static final byte KEYPAD_COMMAND_KEY_0 = 0x30;
-    public static final byte KEYPAD_COMMAND_KEY_1 = 0x31;
-    public static final byte KEYPAD_COMMAND_KEY_2 = 0x32;
-    public static final byte KEYPAD_COMMAND_KEY_3 = 0x33;
-    public static final byte KEYPAD_COMMAND_KEY_4 = 0x34;
-    public static final byte KEYPAD_COMMAND_KEY_5 = 0x35;
-    public static final byte KEYPAD_COMMAND_KEY_6 = 0x36;
-    public static final byte KEYPAD_COMMAND_KEY_7 = 0x37;
-    public static final byte KEYPAD_COMMAND_KEY_8 = 0x38;
-    public static final byte KEYPAD_COMMAND_KEY_9 = 0x39;
-    public static final byte KEYPAD_COMMAND_KEY_ENTER = 0x23;
-    public static final byte KEYPAD_COMMAND_KEY_CANCEL = 0x2A;
 
 
     // Status bytes to receive from door
@@ -174,7 +151,6 @@ public class BluetoothService extends Service {
                 BluetoothGattCharacteristic characteristic =
                         mGattBlunoService.getCharacteristic(SERIAL_PORT_CHARACTERISTIC_UUID);
                 mBluetoothGatt.setCharacteristicNotification(characteristic, true);
-                sendSerial(GET_STATUS_COMMAND);
             } else {
                 Log.w(TAG, "onServicesDiscovered status: " + status);
             }
@@ -420,8 +396,8 @@ public class BluetoothService extends Service {
             final byte b = data[i];
             Log.d(TAG, String.format("byte: 0x%x", b));
             switch (data[i]) {
-                case LOCK_STATUS_BYTE:
-                   /* //TODO: receive and handle data
+                /*case LOCK_STATUS_BYTE:
+                    //TODO: receive and handle data
                    mDoorState = DOOR_STATE_LOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
