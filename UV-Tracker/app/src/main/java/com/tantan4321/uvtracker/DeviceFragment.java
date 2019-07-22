@@ -176,7 +176,7 @@ public class DeviceFragment extends Fragment implements
                     final ScanFilter scanFilter = new ScanFilter.Builder()
                             .setServiceUuid(mServiceUuid)
                             .build();
-                    if (!scanFilter.matches(result)) return;
+                    //if (!scanFilter.matches(result)) return;
 
                     ScanResultWrapper resultWrapper = new ScanResultWrapper(result);
                     mLeDeviceListAdapter.addDevice(resultWrapper);
@@ -316,7 +316,7 @@ public class DeviceFragment extends Fragment implements
         Log.d(TAG, "startBluetoothLeScan");
         if (enable && mBluetoothAdapter.isEnabled()) {
             mLeDeviceListAdapter.clear();
-            Log.e(TAG, "scanLeDevice: Bruh 22");
+
             if (!TextUtils.isEmpty(mDefaultDeviceAddress)) {
                 // Add the default device as the first item in the list
                 final ScanResultWrapper resultWrapper = new ScanResultWrapper(
@@ -325,7 +325,6 @@ public class DeviceFragment extends Fragment implements
                         0,
                         0,
                         0);
-                Log.e(TAG, "scanLeDevice: bruh");
                 mLeDeviceListAdapter.addDevice(resultWrapper);
                 mLeDeviceListAdapter.notifyDataSetChanged();
             }
@@ -380,6 +379,7 @@ public class DeviceFragment extends Fragment implements
 
     public void updateState(int connectionState) {
         mConnectionState = connectionState;
+
         updateDeviceDetails();
     }
 
