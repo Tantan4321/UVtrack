@@ -1,5 +1,7 @@
 package com.tantan4321.uvtracker;
 
+import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -13,9 +15,11 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.ParcelUuid;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -44,6 +48,8 @@ public class MainActivity extends AppCompatActivity
 
     private BluetoothAdapter mBtAdapter;
     private BluetoothService mBluetoothService;
+
+    public DataHandler mDataHandler;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
 
@@ -102,6 +108,8 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
+        mDataHandler = new DataHandler(this);
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -126,6 +134,7 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             onNavigationItemSelected(mNavView.getMenu().getItem(0));
         }
+
 
     }
 
