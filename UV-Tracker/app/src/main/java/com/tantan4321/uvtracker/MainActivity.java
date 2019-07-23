@@ -1,6 +1,7 @@
 package com.tantan4321.uvtracker;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -27,6 +28,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
@@ -39,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         DeviceFragment.DeviceFragmentListener{
     private static final String TAG = "MainActivity";
 
+    static MainActivity instance;
+
     private static final int REQUEST_ENABLE_BT = 1;
 
     private static final String TAG_FRAGMENT_READER = "reader";
@@ -48,8 +52,6 @@ public class MainActivity extends AppCompatActivity
 
     private BluetoothAdapter mBtAdapter;
     private BluetoothService mBluetoothService;
-
-    public DataHandler mDataHandler;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
 
@@ -108,7 +110,6 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
-        mDataHandler = new DataHandler(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -134,6 +135,22 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             onNavigationItemSelected(mNavView.getMenu().getItem(0));
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("File write permission required");
+                builder.setMessage("This app requires write permissions");
+                builder.setPositiveButton(android.R.string.ok,
+                        (dialog, which) -> requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
+                builder.show();
+                return;
+            }
+        }
+        DataHandler.GetInstance();
+
+        DataHandler.GetInstance().setContext(this);
+
 
 
     }

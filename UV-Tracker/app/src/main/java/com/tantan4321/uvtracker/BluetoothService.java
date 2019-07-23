@@ -48,7 +48,7 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothService extends Service {
+public class BluetoothService extends Service{
     private final static String TAG = BluetoothService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
@@ -57,6 +57,8 @@ public class BluetoothService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
+
+    private DataHandler mDataHandler;
 
     private BluetoothGattService mGattBlunoService;
     private BluetoothGattService mGattDeviceInfoService;
@@ -176,6 +178,7 @@ public class BluetoothService extends Service {
                 return;
             onReceiveSerial(characteristic.getValue());
         }
+
     };
 
     private final ScanCallback mScanCallback = new ScanCallback() {
@@ -209,6 +212,11 @@ public class BluetoothService extends Service {
         final Intent intent = new Intent(ACTION_CONNECTION_STATE_CHANGED);
         intent.putExtra(EXTRA_CONNECTION_STATE, mConnectionState);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
+    public void logToFile(String str) {
+        DataHandler.GetInstance().writeToLogFile(str);
     }
 
 
@@ -253,8 +261,6 @@ public class BluetoothService extends Service {
             stopSelf();
             return START_NOT_STICKY;
         }
-
-
 
         startBluetoothLeScan();
         return START_STICKY;
@@ -392,7 +398,11 @@ public class BluetoothService extends Service {
 
     private void onReceiveSerial(byte[] data) {
         // The most recent command byte in the buffer is the only one we're interested in
-        for (int i = (data.length - 1); i >= 0; i--) {
+        String received = new String(data);
+
+        Log.d(TAG, received);
+        logToFile(received);
+        /*for (int i = (data.length - 1); i >= 0; i--) {
             final byte b = data[i];
             Log.d(TAG, String.format("byte: 0x%x", b));
             switch (data[i]) {
@@ -406,7 +416,7 @@ public class BluetoothService extends Service {
                     mDoorState = DOOR_STATE_UNLOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
-                    break;*/
+                    break;
                 case ERROR_STATUS_BYTE:
                     Log.w(TAG, "Error status received from lock.");
                     break;
@@ -417,7 +427,7 @@ public class BluetoothService extends Service {
                     Log.w(TAG, String.format("Unknown command byte received from lock: 0x%x", data[i]));
                     break;
             }
-        }
+        }*/
     }
 
     private String getDefaultDeviceAddress() {

@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 
 import androidx.core.app.ActivityCompat;
@@ -20,24 +21,20 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 
 public class DataHandler{
+    private static final String TAG = "DataHandler";
 
+    private Context context;
     private static final String LOG_FILE = "data.txt";
-    private static final String UV_FILE = "data.txt";
+    private static final String UV_FILE = "UV.txt";
     private static final String DIRECTORY_NAME = "uvLogs";
 
-    public DataHandler(Context context){
+    private static DataHandler m_pInstance;
+    public static DataHandler GetInstance() {
+        if (m_pInstance == null) m_pInstance = new DataHandler();
+        return m_pInstance;
+    }
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (context.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle("File write permission required");
-                builder.setMessage("This app requires write permissions");
-                builder.setPositiveButton(android.R.string.ok,
-                        (dialog, which) -> ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
-                builder.show();
-                return;
-            }
-        }
+    public DataHandler(){
         File rootPath = new File(Environment.getExternalStorageDirectory(), DIRECTORY_NAME);
         if (!rootPath.exists()) {
             if(rootPath.mkdirs()) {
@@ -56,13 +53,17 @@ public class DataHandler{
 
         File uvFile = new File(rootPath, UV_FILE);
         try {
-            logFile.createNewFile();
+            uvFile.createNewFile();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void writeToLogFile(String data, Context context) {
+    public void setContext(Context context){
+        this.context = context;
+    }
+
+    public void writeToLogFile(String data) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(LOG_FILE, Context.MODE_PRIVATE));
             outputStreamWriter.write(data);
@@ -74,7 +75,7 @@ public class DataHandler{
     }
 
     // Read text from file
-    public String readFromFile(Context context) {
+    public String readFromFile() {
 
         String ret = "";
 
