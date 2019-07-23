@@ -400,7 +400,6 @@ public class BluetoothService extends Service{
         // The most recent command byte in the buffer is the only one we're interested in
         String received = new String(data);
 
-        Log.d(TAG, received);
         logToFile(received);
         /*for (int i = (data.length - 1); i >= 0; i--) {
             final byte b = data[i];
