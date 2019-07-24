@@ -59,7 +59,7 @@
         android:ems="10"
         android:gravity="center"
         android:textColor="#FDA505"
-        android:textSize="25sp"
+        android:textSize="20sp"
         tools:text="10:00AM-4:00PM" />
 
     <TextView
