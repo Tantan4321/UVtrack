@@ -143,7 +143,7 @@
             android:layout_marginTop="@dimen/fab_margin"
             android:layout_marginRight="@dimen/fab_margin"
             android:layout_marginBottom="@dimen/fab_margin"
-            android:src="@drawable/ic_done_24px"
+            android:src="@drawable/ic_action_select"
             android:visibility="visible" />
     </androidx.cardview.widget.CardView>
 </LinearLayout>

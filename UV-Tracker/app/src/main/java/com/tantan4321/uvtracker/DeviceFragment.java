@@ -224,7 +224,6 @@ public class DeviceFragment extends Fragment implements
         mSelectButton = (FloatingActionButton) rootView.findViewById(R.id.select_button);
         mSelectButton.setOnClickListener(this);
 
-
         Spinner deviceSpinner = (Spinner) rootView.findViewById(R.id.device_spinner);
 
         deviceSpinner.setAdapter(mLeDeviceListAdapter);

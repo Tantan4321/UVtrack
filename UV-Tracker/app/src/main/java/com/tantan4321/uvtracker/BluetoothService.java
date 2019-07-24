@@ -48,7 +48,7 @@ import java.util.UUID;
  * Service for managing connection and data communication with a GATT server hosted on a
  * given Bluetooth LE device.
  */
-public class BluetoothService extends Service {
+public class BluetoothService extends Service{
     private final static String TAG = BluetoothService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
@@ -57,6 +57,8 @@ public class BluetoothService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
+
+    private DataHandler mDataHandler;
 
     private BluetoothGattService mGattBlunoService;
     private BluetoothGattService mGattDeviceInfoService;
@@ -71,12 +73,6 @@ public class BluetoothService extends Service {
     public static final int STATE_DISCONNECTED = 0;
     public static final int STATE_CONNECTING = 1;
     public static final int STATE_CONNECTED = 2;
-
-
-    public final static String ACTION_LOCK =
-            "net.jpuderer.android.bluedoor.ACTION_LOCK";
-    public final static String ACTION_UNLOCK =
-            "net.jpuderer.android.bluedoor.ACTION_UNLOCK";
 
     public final static UUID HID_SERVICE_UUID =
             UUID.fromString("00001812-0000-1000-8000-00805f9b34fb");
@@ -108,23 +104,6 @@ public class BluetoothService extends Service {
     // Bluno serial characteristic can not receive more than 17 characters
     // at once.
     private static final int MAX_SERIAL_TX_SIZE = 17;
-
-    // Keys and commands to send to door
-
-    public static final byte GET_STATUS_COMMAND = 0x00;
-    public static final byte KEYPAD_COMMAND_LOCK = 0x41;
-    public static final byte KEYPAD_COMMAND_KEY_0 = 0x30;
-    public static final byte KEYPAD_COMMAND_KEY_1 = 0x31;
-    public static final byte KEYPAD_COMMAND_KEY_2 = 0x32;
-    public static final byte KEYPAD_COMMAND_KEY_3 = 0x33;
-    public static final byte KEYPAD_COMMAND_KEY_4 = 0x34;
-    public static final byte KEYPAD_COMMAND_KEY_5 = 0x35;
-    public static final byte KEYPAD_COMMAND_KEY_6 = 0x36;
-    public static final byte KEYPAD_COMMAND_KEY_7 = 0x37;
-    public static final byte KEYPAD_COMMAND_KEY_8 = 0x38;
-    public static final byte KEYPAD_COMMAND_KEY_9 = 0x39;
-    public static final byte KEYPAD_COMMAND_KEY_ENTER = 0x23;
-    public static final byte KEYPAD_COMMAND_KEY_CANCEL = 0x2A;
 
 
     // Status bytes to receive from door
@@ -174,7 +153,6 @@ public class BluetoothService extends Service {
                 BluetoothGattCharacteristic characteristic =
                         mGattBlunoService.getCharacteristic(SERIAL_PORT_CHARACTERISTIC_UUID);
                 mBluetoothGatt.setCharacteristicNotification(characteristic, true);
-                sendSerial(GET_STATUS_COMMAND);
             } else {
                 Log.w(TAG, "onServicesDiscovered status: " + status);
             }
@@ -200,6 +178,7 @@ public class BluetoothService extends Service {
                 return;
             onReceiveSerial(characteristic.getValue());
         }
+
     };
 
     private final ScanCallback mScanCallback = new ScanCallback() {
@@ -220,22 +199,24 @@ public class BluetoothService extends Service {
     };
 
     private final SharedPreferences.OnSharedPreferenceChangeListener mPreferenceChangeListener =
-            new SharedPreferences.OnSharedPreferenceChangeListener() {
-        @Override
-        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
-                final String address = getDefaultDeviceAddress();
-                if (!TextUtils.isEmpty(address)) {
-                    connect(address);
+            (sharedPreferences, key) -> {
+                if (PREF_DEFAULT_DEVICE_ADDRESS.equals(key)) {
+                    final String address = getDefaultDeviceAddress();
+                    if (!TextUtils.isEmpty(address)) {
+                        connect(address);
+                    }
                 }
-            }
-        }
-    };
+            };
 
     public void broadcastConnectionUpdate() {
         final Intent intent = new Intent(ACTION_CONNECTION_STATE_CHANGED);
         intent.putExtra(EXTRA_CONNECTION_STATE, mConnectionState);
         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+    }
+
+
+    public void logToFile(String str) {
+        DataHandler.GetInstance().writeToLogFile(str);
     }
 
 
@@ -248,7 +229,7 @@ public class BluetoothService extends Service {
     @Override
     public void onCreate() {
         Log.d(TAG, "onCreate");
-        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences(getPackageName(), Context.MODE_MULTI_PROCESS);
         mSharedPreferences.registerOnSharedPreferenceChangeListener(mPreferenceChangeListener);
     }
 
@@ -279,15 +260,6 @@ public class BluetoothService extends Service {
             // Nothing to do, so just stop ourselves until something changes
             stopSelf();
             return START_NOT_STICKY;
-        }
-
-        // The notification fires an intent to lock/unlock the door
-        if (intent != null && mConnectionState == STATE_CONNECTED) {
-            if (ACTION_UNLOCK.equals(intent.getAction())) {
-                unlockDoor();
-            } else if (ACTION_LOCK.equals(intent.getAction())) {
-                lockDoor();
-            }
         }
 
         startBluetoothLeScan();
@@ -426,12 +398,15 @@ public class BluetoothService extends Service {
 
     private void onReceiveSerial(byte[] data) {
         // The most recent command byte in the buffer is the only one we're interested in
-        for (int i = (data.length - 1); i >= 0; i--) {
+        String received = new String(data);
+
+        logToFile(received);
+        /*for (int i = (data.length - 1); i >= 0; i--) {
             final byte b = data[i];
             Log.d(TAG, String.format("byte: 0x%x", b));
             switch (data[i]) {
-                case LOCK_STATUS_BYTE:
-                   /* //TODO: receive and handle data
+                /*case LOCK_STATUS_BYTE:
+                    //TODO: receive and handle data
                    mDoorState = DOOR_STATE_LOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
@@ -440,7 +415,7 @@ public class BluetoothService extends Service {
                     mDoorState = DOOR_STATE_UNLOCKED;
                     broadcastDoorUpdate();
                     updateNotification();
-                    break;*/
+                    break;
                 case ERROR_STATUS_BYTE:
                     Log.w(TAG, "Error status received from lock.");
                     break;
@@ -451,27 +426,7 @@ public class BluetoothService extends Service {
                     Log.w(TAG, String.format("Unknown command byte received from lock: 0x%x", data[i]));
                     break;
             }
-        }
-    }
-
-    public void lockDoor() {
-        sendSerial(KEYPAD_COMMAND_LOCK);
-    }
-
-    public void unlockDoor() {
-        String passcode = mSharedPreferences.getString(PREF_LOCK_PASSCODE,
-                DEFAULT_LOCK_PASSCODE) + '#';
-        if (passcode.length() <= 1)
-            return;
-
-        byte[] command;
-        try {
-            command = passcode.getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            Log.e(TAG, "Unexpected error encoding passcode", e);
-            return;
-        }
-        sendSerial(command);
+        }*/
     }
 
     private String getDefaultDeviceAddress() {

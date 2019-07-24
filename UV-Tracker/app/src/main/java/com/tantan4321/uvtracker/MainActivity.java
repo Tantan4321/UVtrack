@@ -1,16 +1,24 @@
 package com.tantan4321.uvtracker;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.os.ParcelUuid;
 import android.util.Log;
 import android.view.MenuItem;
@@ -20,8 +28,10 @@ import android.widget.Toast;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import com.google.android.material.navigation.NavigationView;
 
@@ -31,6 +41,8 @@ public class MainActivity extends AppCompatActivity
         DeviceFragment.DeviceFragmentListener{
     private static final String TAG = "MainActivity";
 
+    static MainActivity instance;
+
     private static final int REQUEST_ENABLE_BT = 1;
 
     private static final String TAG_FRAGMENT_READER = "reader";
@@ -39,8 +51,39 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG_FRAGMENT_DATA = "data";
 
     private BluetoothAdapter mBtAdapter;
+    private BluetoothService mBluetoothService;
 
     private int mConnectionState = BluetoothService.STATE_DISCONNECTED;
+
+    //TODO: Transfer below to foreground service
+    // Code to manage Service lifecycle.
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName componentName, IBinder service) {
+            mBluetoothService = ((BluetoothService.LocalBinder) service).getService();
+            mBluetoothService.broadcastConnectionUpdate();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName componentName) {
+            mBluetoothService = null;
+        }
+    };
+
+    // Handles various events fired by the Service.
+    private final BroadcastReceiver mGattUpdateReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            final String action = intent.getAction();
+            if (BluetoothService.ACTION_CONNECTION_STATE_CHANGED.equals(action)) {
+                mConnectionState =
+                        intent.getIntExtra(BluetoothService.EXTRA_CONNECTION_STATE, 0);
+
+                onUpdateView();
+            }
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +110,7 @@ public class MainActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_main);
 
+
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -77,15 +121,36 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
 
         View refreshButton = findViewById(R.id.refresh_button);
-        refreshButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) { onRefreshClicked(v); }
-        });
+        refreshButton.setOnClickListener(v -> onRefreshClicked(v));
 
         NavigationView mNavView = findViewById(R.id.nav_view);
         mNavView.setNavigationItemSelectedListener(this);
 
         //registerServiceReceiver();
+
+        Intent gattServiceIntent = new Intent(this, BluetoothService.class);
+        startService(gattServiceIntent);
+        bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
+
+        if (savedInstanceState == null) {
+            onNavigationItemSelected(mNavView.getMenu().getItem(0));
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (this.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("File write permission required");
+                builder.setMessage("This app requires write permissions");
+                builder.setPositiveButton(android.R.string.ok,
+                        (dialog, which) -> requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0));
+                builder.show();
+                return;
+            }
+        }
+        DataHandler.GetInstance();
+
+        DataHandler.GetInstance().setContext(this);
+
 
 
     }
@@ -159,6 +224,15 @@ public class MainActivity extends AppCompatActivity
         if (deviceUI != null) {
             deviceUI.updateState(mConnectionState);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //TODO: test without killing service
+        unbindService(mServiceConnection);
+        mBluetoothService = null;
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mGattUpdateReceiver);
     }
 
     public void onRefreshClicked(View view) {

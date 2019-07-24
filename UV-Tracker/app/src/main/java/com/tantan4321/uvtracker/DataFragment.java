@@ -35,7 +35,6 @@ public class DataFragment extends Fragment implements View.OnClickListener{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Log.e(TAG, "onCreateView: Why the fuck");
         View rootView = inflater.inflate(R.layout.data_fragment, container, false);
         return rootView;
     }
