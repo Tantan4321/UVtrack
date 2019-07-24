@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity
 
         //registerServiceReceiver();
 
+        DataStore.GetInstance();
+        
         Intent gattServiceIntent = new Intent(this, BluetoothService.class);
         startService(gattServiceIntent);
         bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);
@@ -147,9 +149,8 @@ public class MainActivity extends AppCompatActivity
                 return;
             }
         }
-        DataHandler.GetInstance();
 
-        DataHandler.GetInstance().setContext(this);
+
 
 
 
