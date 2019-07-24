@@ -55,11 +55,12 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/editText"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-7dp"
         android:ems="10"
         android:gravity="center"
         android:inputType="time"
-        android:textSize="25sp"
         android:textColor="#FDA505"
+        android:textSize="25sp"
         tools:text="10:00AM-4:00PM" />
 
     <TextView
@@ -68,12 +69,12 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/editText3"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-72dp"
+        android:layout_marginBottom="-96dp"
         android:ems="10"
         android:gravity="center"
-        android:textColor="#DB0000"
         android:inputType="textPersonName"
         android:text="Time Remaining:"
+        android:textColor="#DB0000"
         android:textSize="40sp" />
 
     <TextView
@@ -91,30 +92,16 @@
         android:textSize="40sp" />
 
     <TextView
-        android:id="@+id/tv_minutes"
-        android:layout_width="301dp"
-        android:layout_height="72dp"
-        android:layout_below="@+id/editText3"
-        android:layout_alignBottom="@+id/editText4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="138dp"
-        android:layout_marginBottom="-135dp"
-        android:gravity="center"
-        android:text="11 minutes"
-        android:textColor="#FDA505"
-        android:textSize="40sp" />
-
-    <TextView
         android:id="@+id/tv_hours"
         android:layout_width="301dp"
         android:layout_height="72dp"
         android:layout_below="@+id/editText3"
         android:layout_alignBottom="@+id/editText4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="84dp"
-        android:layout_marginBottom="-84dp"
+        android:layout_marginTop="137dp"
+        android:layout_marginBottom="-135dp"
         android:gravity="center"
-        android:text="2 hours"
+        android:text="2:30:29"
         android:textColor="#FDA505"
         android:textSize="40sp" />
 
@@ -131,20 +118,6 @@
         android:text="Not Connected"
         android:textColor="#FDA505"
         android:textSize="34sp" />
-
-    <TextView
-        android:id="@+id/tv_second"
-        android:layout_width="301dp"
-        android:layout_height="72dp"
-        android:layout_below="@+id/editText3"
-        android:layout_alignBottom="@+id/editText4"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="192dp"
-        android:layout_marginBottom="-189dp"
-        android:gravity="center"
-        android:text="2 seconds"
-        android:textColor="#FDA505"
-        android:textSize="40sp" />
 
     <ImageView
         android:id="@+id/logo_image"
