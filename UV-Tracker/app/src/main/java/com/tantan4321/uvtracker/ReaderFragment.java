@@ -83,7 +83,6 @@ public class ReaderFragment extends Fragment implements View.OnClickListener {
     }
 
     public void updateUI(){
-        Log.d(TAG, "updateUI: " + Utils.formatSeconds(DataStore.GetInstance().timer));
         tvTime.setText(Utils.formatSeconds(DataStore.GetInstance().timer));
 
         tvIndex.setText("" + DataStore.GetInstance().latest[2]);
