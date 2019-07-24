@@ -55,10 +55,9 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/editText"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-7dp"
+        android:layout_marginBottom="-19dp"
         android:ems="10"
         android:gravity="center"
-        android:inputType="time"
         android:textColor="#FDA505"
         android:textSize="25sp"
         tools:text="10:00AM-4:00PM" />
