@@ -42,6 +42,7 @@ import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 import java.util.UUID;
 
 /**
@@ -57,8 +58,6 @@ public class BluetoothService extends Service{
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
-
-    private DataHandler mDataHandler;
 
     private BluetoothGattService mGattBlunoService;
     private BluetoothGattService mGattDeviceInfoService;
@@ -216,7 +215,11 @@ public class BluetoothService extends Service{
 
 
     public void logToFile(String str) {
-        DataHandler.GetInstance().writeToLogFile(str);
+        StringTokenizer st = new StringTokenizer(str);
+        double uva = Double.parseDouble(st.nextToken());
+        double uvb = Double.parseDouble(st.nextToken());
+        double uv = Double.parseDouble(st.nextToken());
+        DataStore.GetInstance().addVal(uva, uvb, uv);
     }
 
 
