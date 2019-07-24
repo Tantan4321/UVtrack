@@ -38,4 +38,16 @@ public class Utils {
         toast.show();
     }
 
+    public static String formatSeconds(int timeInSeconds){
+        int secondsLeft = timeInSeconds % 3600 % 60;
+        int minutes = (int)Math.floor(timeInSeconds % 3600 / 60);
+        int hours = (int)Math.floor(timeInSeconds / 3600);
+
+        String HH = "" +hours;
+        String MM = minutes < 10 ? "0" + minutes : "" + minutes;
+        String SS = secondsLeft < 10 ? "0" + secondsLeft : "" + secondsLeft;
+
+        return HH + ":" + MM + ":" + SS;
+    }
+
 }
