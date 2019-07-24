@@ -18,13 +18,14 @@
         android:layout_height="96dp"
         android:layout_below="@id/logo_image"
         android:layout_alignParentStart="true"
-        android:layout_marginStart="54dp"
-        android:layout_marginTop="9dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="45dp"
+        android:layout_marginTop="11dp"
         android:gravity="center"
         android:inputType="textPersonName"
-        android:layout_centerHorizontal="true"
         android:paddingBottom="15dp"
         android:text="Take Care Tomorrow From:"
+        android:textColor="#DB0000"
         android:textSize="20sp" />
 
     <TextView
@@ -35,6 +36,7 @@
         android:foregroundGravity="left|bottom"
         android:gravity="center"
         android:text="SPF: 20"
+        android:textColor="#FDA505"
         android:textSize="25dp"
         android:textStyle="bold" />
 
@@ -57,6 +59,7 @@
         android:gravity="center"
         android:inputType="time"
         android:textSize="25sp"
+        android:textColor="#FDA505"
         tools:text="10:00AM-4:00PM" />
 
     <TextView
@@ -68,6 +71,7 @@
         android:layout_marginBottom="-72dp"
         android:ems="10"
         android:gravity="center"
+        android:textColor="#DB0000"
         android:inputType="textPersonName"
         android:text="Time Remaining:"
         android:textSize="40sp" />
@@ -83,6 +87,7 @@
         android:layout_marginBottom="-193dp"
         android:gravity="center"
         android:text="4 Hours 10:00 Mins"
+        android:textColor="#FDA505"
         android:textSize="50sp" />
 
     <ImageView
