@@ -77,18 +77,74 @@
         android:textSize="40sp" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="273dp"
-        android:layout_height="224dp"
+        android:id="@+id/editText6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="-330dp"
+        android:ems="10"
+        android:gravity="center"
+        android:inputType="textPersonName"
+        android:text="UV Index:"
+        android:textColor="#DB0000"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tv_minutes"
+        android:layout_width="301dp"
+        android:layout_height="72dp"
         android:layout_below="@+id/editText3"
         android:layout_alignBottom="@+id/editText4"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="21dp"
-        android:layout_marginBottom="-193dp"
+        android:layout_marginTop="138dp"
+        android:layout_marginBottom="-135dp"
         android:gravity="center"
-        android:text="4 Hours 10:00 Mins"
+        android:text="11 minutes"
         android:textColor="#FDA505"
-        android:textSize="50sp" />
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tv_hours"
+        android:layout_width="301dp"
+        android:layout_height="72dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignBottom="@+id/editText4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="84dp"
+        android:layout_marginBottom="-84dp"
+        android:gravity="center"
+        android:text="2 hours"
+        android:textColor="#FDA505"
+        android:textSize="40sp" />
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="301dp"
+        android:layout_height="72dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignBottom="@+id/editText4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="321dp"
+        android:layout_marginBottom="-317dp"
+        android:gravity="center"
+        android:text="Not Connected"
+        android:textColor="#FDA505"
+        android:textSize="34sp" />
+
+    <TextView
+        android:id="@+id/tv_second"
+        android:layout_width="301dp"
+        android:layout_height="72dp"
+        android:layout_below="@+id/editText3"
+        android:layout_alignBottom="@+id/editText4"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="192dp"
+        android:layout_marginBottom="-189dp"
+        android:gravity="center"
+        android:text="2 seconds"
+        android:textColor="#FDA505"
+        android:textSize="40sp" />
 
     <ImageView
         android:id="@+id/logo_image"
